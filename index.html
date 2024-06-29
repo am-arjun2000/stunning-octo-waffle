@@ -73,10 +73,9 @@
                 .then(data => {
                     const metaData = `
 IP Address: ${data.ip}
-City: ${data.city}
-Region: ${data.region}
+
 Country: ${data.country_name}
-ISP: ${data.org}
+
                     `;
                     showMessage('metaData', metaData, fetchDeviceInfo);
                 })
