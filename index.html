@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prank Page</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: left;
+            width: 80%;
+        }
+        #loading, #message, #prankMessage {
+            font-size: 18px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: none;
+        }
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid;
+            white-space: nowrap;
+            animation: typewriter 2s steps(40) 1s 1 normal both, blinkTextCursor 500ms steps(40) infinite normal;
+        }
+        @keyframes blinkTextCursor {
+            from { border-right-color: rgba(255, 255, 255, .75); }
+            to { border-right-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loading" class="typewriter">Loading...</div>
+        <div id="message" class="typewriter">Accessing your device...</div>
+        <div id="prankMessage" class="typewriter">Your photos and location have been captured and are being transmitted to the hacker.</div>
+    </div>
+    <script>
+        function showMessage(id, text, callback) {
+            const element = document.getElementById(id);
+            element.style.display = 'block';
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                } else if (callback) {
+                    setTimeout(callback, 1000);
+                }
+            }
+            typeWriter();
+        }
+
+        window.onload = function() {
+            showMessage('loading', 'Loading...', () => {
+                showMessage('message', 'Accessing your device...', () => {
+                    showMessage('prankMessage', 'Your photos and location have been captured and are being transmitted to the hacker.');
+                });
+            });
+        };
+    </script>
+</body>
+</html>
