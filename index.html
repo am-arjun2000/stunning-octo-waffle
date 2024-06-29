@@ -145,7 +145,9 @@ OS: ${platform.os.family}
             }, 30);
         }
 
-        document.getElementById('startButton').addEventListener('click', startPrank);
+        document.getElementById('startButton').addEventListener('click', () => {
+            showMessage('progress', 'Downloading and installing malware...', startPrank);
+        });
     </script>
 </body>
 </html>
