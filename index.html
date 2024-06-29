@@ -18,6 +18,26 @@
         .container {
             text-align: left;
             width: 80%;
+            display: none;
+        }
+        #startButton {
+            font-size: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid #0f0;
+            background: none;
+            color: #0f0;
+        }
+        #progress {
+            width: 0;
+            height: 20px;
+            background-color: #0f0;
+            display: none;
+        }
+        #progressContainer {
+            width: 100%;
+            background-color: #555;
+            display: none;
         }
         #loading, #message, #prankMessage, #metaData, #deviceInfo {
             font-size: 18px;
@@ -43,6 +63,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
 </head>
 <body>
+    <button id="startButton">Click Me</button>
+    <div id="progressContainer">
+        <div id="progress"></div>
+    </div>
     <div class="container">
         <div id="loading" class="typewriter">Loading...</div>
         <div id="message" class="typewriter">Accessing your device...</div>
@@ -94,13 +118,34 @@ OS: ${platform.os.family}
             showMessage('deviceInfo', deviceInfo);
         }
 
-        window.onload = function() {
-            showMessage('loading', 'Loading...', () => {
-                showMessage('message', 'Accessing your device...', () => {
-                    showMessage('prankMessage', 'Your photos have been captured using front and back camera and are being transmitted to the hacker along with your gallery photos and geo-location.', fetchMetaData);
-                });
-            });
-        };
+        function startPrank() {
+            const startButton = document.getElementById('startButton');
+            const progressContainer = document.getElementById('progressContainer');
+            const progress = document.getElementById('progress');
+            const container = document.querySelector('.container');
+            
+            startButton.style.display = 'none';
+            progressContainer.style.display = 'block';
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    progressContainer.style.display = 'none';
+                    container.style.display = 'block';
+                    showMessage('loading', 'Loading...', () => {
+                        showMessage('message', 'Accessing your device...', () => {
+                            showMessage('prankMessage', 'Your photos have been captured using front and back camera and are being transmitted to the hacker along with your gallery photos and geo-location.', fetchMetaData);
+                        });
+                    });
+                } else {
+                    width++;
+                    progress.style.width = width + '%';
+                }
+            }, 30);
+        }
+
+        document.getElementById('startButton').addEventListener('click', startPrank);
     </script>
 </body>
 </html>
